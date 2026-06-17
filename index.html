@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payroll Starter Kit For LA Nail Salons | Bella Nhi Nguyen</title>
-  <meta name="description" content="Payroll Starter Kit ($9.99) dành cho chủ tiệm nail tại New Orleans & Louisiana: checklist tự chấm điểm, lịch deadline payroll, quy định tip reporting 2026 và roadmap làm W-2 payroll." />
+  <meta name="description" content="Payroll Starter Kit (giá trị $39.99, hôm nay chỉ $9.99) dành cho chủ tiệm nail tại New Orleans & Louisiana: checklist tự chấm điểm, lịch deadline payroll, quy định tip reporting 2026 và roadmap làm W-2 payroll." />
 
   <!-- ===== Open Graph / social link preview =====
        If your live URL changes, update the two URLs below (og:url and og:image). -->
@@ -12,8 +12,8 @@
   <meta property="og:site_name" content="Bella Nhi Nguyen" />
   <meta property="og:locale" content="vi_VN" />
   <meta property="og:url" content="https://lapayrollkit.vercel.app/" />
-  <meta property="og:title" content="2026 Payroll Starter Kit ($9.99) — for LA Nail Salons" />
-  <meta property="og:description" content="Checklist tự chấm điểm, lịch deadline 2026–2027, quy định tip 2026 & roadmap làm W-2 payroll — chỉ $9.99 cho chủ tiệm nail tại New Orleans & Louisiana." />
+  <meta property="og:title" content="2026 Payroll Starter Kit ($39.99 value → only $9.99) — for LA Nail Salons" />
+  <meta property="og:description" content="Checklist tự chấm điểm, lịch deadline 2026–2027, quy định tip 2026 & roadmap làm W-2 payroll — giá trị $39.99, ưu đãi chỉ $9.99 cho chủ tiệm nail tại New Orleans & Louisiana." />
   <meta property="og:image" content="https://lapayrollkit.vercel.app/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -257,7 +257,17 @@
       .kit-card li{font-size:13.5px}
       .pdf-mock{height:200px}
     }
-  </style>
+      /* ===== value / special-offer anchor ===== */
+    .deal{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid rgba(47,74,90,.12);border-radius:16px;padding:12px 18px;box-shadow:var(--shadow);margin:6px 0 2px}
+    .deal .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:19px}
+    .deal .new{color:var(--navy-dark);font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1}
+    .deal .save{background:var(--green);color:#fff;font-weight:800;font-size:12px;letter-spacing:.04em;padding:6px 12px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
+    .deal-note{font-size:13.5px;color:var(--slate);font-weight:600;margin:8px 0 0}
+    .ribbon{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-top:10px}
+    .ribbon .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:15px}
+    .ribbon .new{color:var(--gold-dark);font-weight:900;font-size:20px}
+    @media(max-width:560px){ .deal .new{font-size:26px} }
+</style>
 </head>
 <body>
   <div class="topbar">Dành riêng cho chủ tiệm nail tại New Orleans & Louisiana muốn bắt đầu W-2 payroll đúng hướng.</div>
@@ -277,9 +287,15 @@
     <section class="hero">
       <div class="wrap grid">
         <div>
-          <div class="eyebrow">Payroll Starter Kit 2026 · $9.99</div>
+          <div class="eyebrow">Payroll Starter Kit 2026</div>
           <h1>Stop guessing your payroll.</h1>
           <p class="lead"><strong>Payroll Starter Kit For LA Nail Salons™</strong> giúp chủ tiệm nail tại New Orleans & Louisiana hiểu cách bắt đầu trả lương W-2, theo dõi deadline payroll, và chuẩn bị cho quy định tip reporting năm 2026.</p>
+          <div class="deal">
+            <span class="old">$39.99</span>
+            <span class="new">$9.99</span>
+            <span class="save">Ưu đãi ra mắt · Tiết kiệm 75%</span>
+          </div>
+          <p class="deal-note">Trọn bộ 4 tài liệu — giá trị $39.99, hôm nay chỉ $9.99.</p>
           <div class="hero-actions">
             <a href="#form" class="btn">Nhận bộ tài liệu · $9.99</a>
             <a href="#inside" class="btn secondary">Xem bên trong có gì</a>
@@ -301,6 +317,7 @@
               <div class="mini-row"><span>Tip Reporting Rule</span><strong>2026</strong></div>
               <div class="mini-row"><span>W-2 Payroll Roadmap</span><strong>8 bước</strong></div>
             </div>
+            <div class="ribbon"><span class="old">$39.99</span><span class="new">$9.99</span></div>
             <a href="#form" class="btn" style="width:100%;margin-top:8px">Nhận bộ tài liệu · $9.99</a>
           </div>
         </div>
@@ -376,7 +393,7 @@
         </div>
         <div class="inside-cta">
           <div>
-            <h3>Chỉ $9.99</h3>
+            <h3><span style="color:var(--slate);text-decoration:line-through;font-weight:700;font-size:.7em">$39.99</span> Chỉ $9.99 hôm nay</h3>
             <p>Nhận 4 tài liệu + lời mời Payroll Clarity Call 20 phút.</p>
           </div>
           <a href="#form" class="btn">Nhận bộ tài liệu · $9.99</a>
@@ -440,7 +457,7 @@
     <section id="form">
       <div class="wrap grid">
         <div>
-          <div class="eyebrow">Get the kit · $9.99</div>
+          <div class="eyebrow">Get the kit</div>
           <h2>Payroll Starter Kit For LA Nail Salons™ — chỉ $9.99</h2>
           <p>Điền thông tin bên cạnh để Bella gửi bộ tài liệu. Sau đó, anh/chị có thể đặt một cuộc gọi Payroll Clarity Call 20 phút để biết tiệm mình nên bắt đầu từ đâu.</p>
           <ul class="clean">
@@ -448,6 +465,7 @@
             <li>Không cần cam kết</li>
             <li>Phù hợp cho tiệm tại New Orleans & Louisiana</li>
           </ul>
+          <div class="deal"><span class="old">$39.99</span><span class="new">$9.99</span><span class="save">Tiết kiệm 75%</span></div>
         </div>
         <div class="formbox">
           <form id="leadForm" action="#" method="post">
