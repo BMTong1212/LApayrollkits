@@ -323,6 +323,15 @@
     .cs-total .cs-price s{color:var(--slate);font-weight:700;text-decoration:line-through;font-size:16px;margin-right:6px}
     .cs-total .cs-price b{font-size:32px;color:var(--navy-dark)}
     /* ===== checkout order-bump (full-package upgrade) ===== */
+    .hb-fields{background:var(--cream-2);border:1px solid rgba(47,74,90,.14);border-radius:14px;padding:16px;margin:0 0 18px}
+    .hb-head{font-size:13.5px;font-weight:700;color:var(--navy-dark);margin:0 0 12px;line-height:1.45}
+    .hb-fields>div{margin-bottom:11px}
+    .hb-fields>div:last-child{margin-bottom:0}
+    .hb-fields .two>div{margin-bottom:0}
+    .hb-label{font-weight:600;font-size:14px;color:var(--navy-dark);margin:0 0 6px}
+    .hb-freq{display:flex;gap:10px}
+    .hb-radio{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border:1.5px solid rgba(47,74,90,.2);border-radius:10px;padding:10px;font-size:14px;cursor:pointer;background:#fff}
+    .hb-radio:has(input:checked){border-color:var(--navy);background:var(--cream)}
     .bump{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 16px;margin:0 0 18px;cursor:pointer;transition:.15s ease}
     .bump:has(input:checked){background:var(--cream-2);border-color:var(--navy);box-shadow:0 6px 18px rgba(201,162,74,.18)}
     .bump input{margin-top:3px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--navy);cursor:pointer}
@@ -583,6 +592,25 @@
                 <span class="bump-sub">Bằng giá Cẩm nang bán riêng — mà có thêm cả bộ kit và Clarity Call. Tiết kiệm hơn $100.</span>
               </span>
             </label>
+            <div class="hb-fields" id="hbFields" hidden>
+              <div class="hb-head">Điền thông tin để làm Cẩm nang riêng cho tiệm — anh/chị nhận bản hoàn chỉnh ngay sau khi thanh toán.</div>
+              <div><label>Thành phố</label><input type="text" name="hb_city" placeholder="New Orleans, LA"></div>
+              <div><label>Tên tiệm</label><input type="text" name="hb_salon" placeholder="Sunshine Nail Spa"></div>
+              <div class="two">
+                <div><label>Tên chủ tiệm</label><input type="text" name="hb_owner" placeholder="Mai Nguyễn"></div>
+                <div><label>Khẩu hiệu (tùy chọn)</label><input type="text" name="hb_slogan" placeholder="Where beauty meets care"></div>
+              </div>
+              <div><label>Địa chỉ tiệm</label><input type="text" name="hb_address" placeholder="123 Main St, New Orleans, LA"></div>
+              <div class="hb-label">Kỳ trả lương</div>
+              <div class="hb-freq">
+                <label class="hb-radio"><input type="radio" name="hb_freq" value="weekly" checked> Hàng tuần</label>
+                <label class="hb-radio"><input type="radio" name="hb_freq" value="biweekly"> Hai tuần</label>
+              </div>
+              <div class="two">
+                <div><label>Ngày trả</label><input type="text" name="hb_payday" placeholder="Mỗi thứ Sáu"></div>
+                <div><label>Ngày áp dụng</label><input type="text" name="hb_effdate" placeholder="01/01/2026"></div>
+              </div>
+            </div>
             
             <div><label>Họ và tên</label><input type="text" name="name" placeholder="Nguyễn..." required></div>
             <div class="two">
@@ -613,7 +641,7 @@
                   <div class="fpx-body">
                     <h4 class="fpx-head">Cẩm nang nhân viên cho tiệm</h4>
                     <p class="fpx-sub">Điền tên tiệm, chủ tiệm, cách trả lương — vài phút là có cuốn cẩm nang song ngữ Anh–Việt riêng cho tiệm anh/chị.</p>
-                    <a class="btn fpx-btn" href="https://handbook4nails-la.vercel.app/?full=1" target="_blank" rel="noopener">Tạo Cẩm nang ngay →</a>
+                    <a class="btn fpx-btn" id="hbAccessLink" href="https://handbook4nails-la.vercel.app/?full=1" target="_blank" rel="noopener">Tạo Cẩm nang ngay →</a>
                   </div>
                 </div>
                 <div class="fpx-item">
@@ -680,7 +708,7 @@
     <div class="wrap">
       <h2 class="fc-head">Tiệm của anh/chị đã sẵn sàng chưa?</h2>
       <p class="fc-sub">Bộ kit $9.99 giúp anh/chị thấy rõ bức tranh — <span style="white-space:nowrap">trong một buổi chiều.</span></p>
-      <a class="btn fc-btn" href="https://buy.stripe.com/3cI28tb88chg1qnf2V9R600">Bảo vệ tiệm của tôi · $9.99</a>
+      <a class="btn fc-btn" href="#form">Bảo vệ tiệm của tôi · $9.99</a>
       <div class="fc-trust">
         <span><b class="fc-check">✓</b> Tải về ngay sau thanh toán</span>
         <span><b class="fc-check">✓</b> Áp dụng cho Louisiana</span>
@@ -726,6 +754,13 @@
           var ub=document.getElementById('upsellBlock'); if(ub) ub.style.display = fullPkg ? 'none' : '';
           var fpx=document.getElementById('fullPackageExtras'); if(fpx) fpx.hidden = !fullPkg;
           var tb=document.getElementById('tellBella'); if(tb) tb.style.display = fullPkg ? 'none' : '';
+          var hbLink=document.getElementById('hbAccessLink');
+          if(hbLink && fullPkg){
+            var hb={}; try{ hb=JSON.parse(localStorage.getItem('lakit_hb')||'{}'); }catch(e2){}
+            var qs=new URLSearchParams(); qs.set('full','1');
+            ['contact_name','contact_phone','contact_email','contact_city','salon','owner','address','slogan','payday','effdate','freq'].forEach(function(k){ if(hb[k]) qs.set(k, hb[k]); });
+            hbLink.href='https://handbook4nails-la.vercel.app/?'+qs.toString();
+          }
         } catch(e){}
         if (pp) pp.scrollIntoView({ behavior:'smooth', block:'center' });
       }
@@ -734,10 +769,13 @@
       // order-bump: toggle the displayed total when the full-package upgrade is checked
       var bump = document.getElementById('bumpCheck');
       var csOld = document.getElementById('csOld'), csNew = document.getElementById('csNew');
+      var hbFields = document.getElementById('hbFields');
       function syncTotal(){
         var full = bump && bump.checked;
         if (csOld) csOld.textContent = full ? '$138.99' : '$39.99';
         if (csNew) csNew.textContent = full ? '$29' : '$9.99';
+        if (hbFields) hbFields.hidden = !full;
+        var sl = lead && lead.elements['hb_salon']; if (sl) sl.required = full;
       }
       if (bump) { bump.addEventListener('change', syncTotal); syncTotal(); }
 
@@ -749,8 +787,21 @@
           var email = (lead.elements['email'].value || '').trim();
           var phone = (lead.elements['phone'].value || '').trim();
           var full = bump && bump.checked;
-          post({ name:name, email:email, phone:phone, package: full ? 'full' : 'base', stage:'checkout' });
-          try { localStorage.setItem('lakit_email', email); localStorage.setItem('lakit_name', name); localStorage.setItem('lakit_package', full ? 'full' : 'base'); } catch(e){}
+          function hv(n){ var el=lead.elements[n]; return el ? (el.value||'').trim() : ''; }
+          var freqEl = lead.querySelector('input[name=hb_freq]:checked');
+          var hb = { contact_name:name, contact_phone:phone, contact_email:email,
+                     contact_city:hv('hb_city'), salon:hv('hb_salon'), owner:hv('hb_owner'),
+                     address:hv('hb_address'), slogan:hv('hb_slogan'),
+                     payday:hv('hb_payday'), effdate:hv('hb_effdate'),
+                     freq: freqEl ? freqEl.value : 'weekly' };
+          post({ name:name, email:email, phone:phone, package: full ? 'full' : 'base', stage:'checkout',
+                 city: hb.contact_city, salon: hb.salon, owner: hb.owner, address: hb.address,
+                 slogan: hb.slogan, payday: hb.payday, effdate: hb.effdate, freq: hb.freq });
+          try {
+            localStorage.setItem('lakit_email', email); localStorage.setItem('lakit_name', name);
+            localStorage.setItem('lakit_package', full ? 'full' : 'base');
+            if (full) localStorage.setItem('lakit_hb', JSON.stringify(hb)); else localStorage.removeItem('lakit_hb');
+          } catch(e){}
           var link = full ? STRIPE_FULL : STRIPE_BASE;
           if (link.indexOf('http') === 0) { window.location.href = link; return; }
           showPurchased(); // fallback when no link set (testing)
