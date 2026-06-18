@@ -312,6 +312,16 @@
     .cs-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:11px;margin-top:11px;border-top:1px solid rgba(47,74,90,.14);font-weight:700;color:var(--navy-dark);font-size:14px}
     .cs-total .cs-price s{color:var(--slate);font-weight:700;text-decoration:line-through;font-size:16px;margin-right:6px}
     .cs-total .cs-price b{font-size:32px;color:var(--navy-dark)}
+    /* ===== checkout order-bump (full-package upgrade) ===== */
+    .bump{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 16px;margin:0 0 18px;cursor:pointer;transition:.15s ease}
+    .bump:has(input:checked){background:var(--cream-2);border-color:var(--navy);box-shadow:0 6px 18px rgba(201,162,74,.18)}
+    .bump input{margin-top:3px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--navy);cursor:pointer}
+    .bump-box{display:flex;flex-direction:column;gap:6px}
+    .bump-head{font-weight:800;color:var(--navy-dark);font-size:14.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;line-height:1.3}
+    .bump-tag{background:var(--gold);color:#1f2528;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
+    .bump-list{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--navy);line-height:1.4}
+    .bump-list .check{color:var(--green);font-weight:900}
+    .bump-sub{font-size:12px;color:var(--slate);line-height:1.5}
 </style>
 </head>
 <body>
@@ -548,10 +558,21 @@
               </ul>
               <div class="cs-extras">
                 <span><span class="check">✓</span> Tải về ngay sau khi thanh toán</span>
-                <span><span class="check">✓</span> Tặng kèm Clarity Call 20 phút miễn phí</span>
               </div>
-              <div class="cs-total"><span>Tổng thanh toán</span><span class="cs-price"><s>$39.99</s> <b>$9.99</b></span></div>
+              <div class="cs-total"><span>Tổng thanh toán</span><span class="cs-price"><s id="csOld">$39.99</s> <b id="csNew">$9.99</b></span></div>
             </div>
+            <label class="bump">
+              <input type="checkbox" id="bumpCheck" name="upgrade">
+              <span class="bump-box">
+                <span class="bump-head">Nâng cấp lên TRỌN GÓI — chỉ $29 <span class="bump-tag">Đáng giá nhất</span></span>
+                <span class="bump-list">
+                  <span><b class="check">✓</b> Cẩm nang nhân viên cho tiệm — song ngữ Anh–Việt</span>
+                  <span><b class="check">✓</b> Clarity Call 20 phút trực tiếp với Bella</span>
+                  <span><b class="check">✓</b> Trọn bộ 4 tài liệu của Payroll Kit</span>
+                </span>
+                <span class="bump-sub">Bằng giá Cẩm nang bán riêng — mà có thêm cả bộ kit và Clarity Call. Tiết kiệm hơn $100.</span>
+              </span>
+            </label>
             
             <div><label>Họ và tên</label><input type="text" name="name" placeholder="Nguyễn..." required></div>
             <div class="two">
@@ -653,7 +674,8 @@
       /* $9.99 Stripe Payment Link (live). Its "After payment" redirect is set to
          https://lapayrollkit.vercel.app/?paid=1 — which reveals the downloads + "Tell Bella" form.
          Leave blank to reveal the downloads immediately (for testing). */
-      var STRIPE_LINK = 'https://buy.stripe.com/3cI28tb88chg1qnf2V9R600';
+      var STRIPE_BASE = 'https://buy.stripe.com/3cI28tb88chg1qnf2V9R600';   /* $9.99 — 4 PDFs only */
+      var STRIPE_FULL = '[FULL_PACKAGE_STRIPE_LINK]';                     /* $29 — full package: 4 PDFs + Handbook + Clarity Call */
 
       var lead = document.getElementById('leadForm');
       var pp   = document.getElementById('postPurchase');
@@ -667,10 +689,21 @@
         if (lead) lead.hidden = true;
         if (pp)   pp.hidden = false;
         try { var tbe=document.getElementById('tb_email'); if(tbe) tbe.value = localStorage.getItem('lakit_email')||''; } catch(e){}
+        try { if (localStorage.getItem('lakit_package')==='full'){ var ub=document.getElementById('upsellBlock'); if(ub) ub.style.display='none'; } } catch(e){}
         if (pp) pp.scrollIntoView({ behavior:'smooth', block:'center' });
       }
 
       // (a) minimal checkout: capture name + email, then go to Stripe
+      // order-bump: toggle the displayed total when the full-package upgrade is checked
+      var bump = document.getElementById('bumpCheck');
+      var csOld = document.getElementById('csOld'), csNew = document.getElementById('csNew');
+      function syncTotal(){
+        var full = bump && bump.checked;
+        if (csOld) csOld.textContent = full ? '$138.99' : '$39.99';
+        if (csNew) csNew.textContent = full ? '$29' : '$9.99';
+      }
+      if (bump) { bump.addEventListener('change', syncTotal); syncTotal(); }
+
       if (lead) {
         lead.addEventListener('submit', function(e){
           e.preventDefault();
@@ -678,9 +711,11 @@
           var name = (lead.elements['name'].value || '').trim();
           var email = (lead.elements['email'].value || '').trim();
           var phone = (lead.elements['phone'].value || '').trim();
-          post({ name:name, email:email, phone:phone, stage:'checkout' });
-          try { localStorage.setItem('lakit_email', email); localStorage.setItem('lakit_name', name); } catch(e){}
-          if (STRIPE_LINK.indexOf('http') === 0) { window.location.href = STRIPE_LINK; return; }
+          var full = bump && bump.checked;
+          post({ name:name, email:email, phone:phone, package: full ? 'full' : 'base', stage:'checkout' });
+          try { localStorage.setItem('lakit_email', email); localStorage.setItem('lakit_name', name); localStorage.setItem('lakit_package', full ? 'full' : 'base'); } catch(e){}
+          var link = full ? STRIPE_FULL : STRIPE_BASE;
+          if (link.indexOf('http') === 0) { window.location.href = link; return; }
           showPurchased(); // fallback when no link set (testing)
         });
       }
