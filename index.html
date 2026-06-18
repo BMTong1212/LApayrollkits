@@ -263,22 +263,22 @@
     }
       /* ===== value / special-offer anchor ===== */
     .deal{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid rgba(47,74,90,.12);border-radius:16px;padding:12px 18px;box-shadow:var(--shadow);margin:6px 0 2px}
-    .deal .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:19px}
-    .deal .new{color:var(--navy-dark);font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1}
+    .deal .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:16px}
+    .deal .new{color:var(--navy-dark);font-weight:900;font-size:26px;letter-spacing:-.5px;line-height:1}
     .deal .save{background:var(--green);color:#fff;font-weight:800;font-size:12px;letter-spacing:.04em;padding:6px 12px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
     .deal-note{font-size:13.5px;color:var(--slate);font-weight:600;margin:8px 0 0}
     .cd-num{color:var(--gold);font-weight:800}
     .urgency-pill{display:inline-block;background:var(--danger);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.01em;padding:7px 14px;border-radius:20px;margin-top:10px;line-height:1.4}
     .ribbon{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-top:10px}
-    .ribbon .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:15px}
-    .ribbon .new{color:var(--gold-dark);font-weight:900;font-size:20px}
-    @media(max-width:560px){ .deal .new{font-size:26px} }
+    .ribbon .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:16px}
+    .ribbon .new{color:var(--navy-dark);font-weight:900;font-size:26px}
+    @media(max-width:560px){ .deal .new{font-size:24px} }
     /* ===== final CTA section ===== */
     .final-cta{background:var(--navy-dark);color:#fff;text-align:center;padding:62px 0}
     .final-cta .wrap{max-width:760px}
     .fc-head{font-size:34px;font-weight:800;color:#fff;line-height:1.16;margin:0}
     .fc-sub{color:#cdd6dc;font-size:17px;line-height:1.6;margin:14px auto 28px;max-width:42ch}
-    .fc-trust{display:flex;gap:12px 28px;justify-content:center;flex-wrap:wrap;margin-top:26px;font-size:13.5px;color:#cdd6dc}
+    .fc-trust{display:flex;gap:12px 28px;justify-content:center;flex-wrap:wrap;margin-top:26px;font-size:14px;color:#cdd6dc}
     .fc-trust span{display:inline-flex;align-items:center;gap:8px}
     .fc-check{color:var(--gold);font-weight:900}
     /* footer: copyright line + demoted fine-print disclaimer */
@@ -296,7 +296,7 @@
     .upsell-benefits li{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--navy);margin:0 0 8px;line-height:1.45}
     .upsell-benefits .check{color:var(--green);font-weight:900;flex:0 0 auto}
     .upsell-price{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
-    .upsell-price .up-new{font-size:24px;font-weight:900;color:var(--navy-dark)}
+    .upsell-price .up-new{font-size:26px;font-weight:900;color:var(--navy-dark)}
     .upsell-price .up-old{font-size:16px;color:var(--slate);text-decoration:line-through;font-weight:700}
     .upsell-btn{width:100%;justify-content:center}
     .upsell-note{font-size:12px;color:var(--slate);text-align:center;margin:10px 0 0;line-height:1.5}
@@ -306,14 +306,14 @@
     .checkout-summary{background:var(--cream-2);border:1px solid rgba(47,74,90,.12);border-radius:14px;padding:15px 17px;margin-bottom:18px}
     .cs-head{font-weight:800;color:var(--navy-dark);font-size:14px;margin-bottom:10px;letter-spacing:.01em}
     .cs-items{list-style:none;margin:0;padding:0}
-    .cs-items li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--navy);margin-bottom:7px;line-height:1.4}
+    .cs-items li{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--navy);margin-bottom:7px;line-height:1.4}
     .cs-items li:last-child{margin-bottom:0}
     .cs-items .check,.cs-extras .check{color:var(--green);font-weight:900;flex:0 0 auto}
     .cs-extras{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--slate);padding-top:10px;margin-top:10px;border-top:1px dashed rgba(47,74,90,.14)}
     .cs-extras span{display:flex;align-items:flex-start;gap:8px;line-height:1.4}
     .cs-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:11px;margin-top:11px;border-top:1px solid rgba(47,74,90,.14);font-weight:700;color:var(--navy-dark);font-size:14px}
-    .cs-total .cs-price s{color:var(--slate);font-weight:600;font-size:14px;margin-right:6px}
-    .cs-total .cs-price b{font-size:20px;color:var(--navy-dark)}
+    .cs-total .cs-price s{color:var(--slate);font-weight:700;text-decoration:line-through;font-size:16px;margin-right:6px}
+    .cs-total .cs-price b{font-size:26px;color:var(--navy-dark)}
 </style>
 </head>
 <body>
@@ -354,7 +354,7 @@
         <a href="#inside">Bên trong kit</a>
         <a href="#roadmap">Quy trình</a>
         <a href="#risk">Rủi ro</a>
-        <a href="#form" class="btn">Lấy bộ kit · $9.99</a>
+        <a href="#form" class="btn">Tải về ngay · $9.99</a>
       </nav>
     </div>
   </header>
@@ -394,7 +394,7 @@
               <div class="mini-row"><span>W-2 Payroll Roadmap</span><strong>8 bước</strong></div>
             </div>
             <div class="ribbon"><span class="old">$39.99</span><span class="new">$9.99</span></div>
-            <a href="#form" class="btn" style="width:100%;margin-top:8px">Lấy bộ kit · $9.99</a>
+            <a href="#form" class="btn" style="width:100%;margin-top:8px">Tải về ngay · $9.99</a>
           </div>
         </div>
       </div>
@@ -566,7 +566,7 @@
               <div><label>Email</label><input type="email" name="email" placeholder="email@example.com" required></div>
               <div><label>Số điện thoại</label><input type="tel" name="phone" placeholder="(504) ..." required></div>
             </div>
-            <button class="btn" type="submit">Thanh toán $9.99 →</button>
+            <button class="btn" type="submit">Nhận trọn bộ kit ngay · $9.99 →</button>
             <p class="note">Thanh toán an toàn qua Stripe — tải bộ tài liệu ngay sau khi thanh toán. Bằng cách tiếp tục, anh/chị đồng ý nhận email từ Bella.</p>
           </form>
 
