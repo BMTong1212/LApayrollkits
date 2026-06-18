@@ -307,31 +307,30 @@
 </head>
 <body>
   <div class="topbar" id="topbar">
-    <span id="deadlineText">Form 941 Q2 deadline: July 31, 2026 — Is your payroll ready?</span> — <strong class="cd-num" id="cdNum">—</strong> <span id="cdUnit">days remaining</span>
+    <span id="deadlineText">Hạn nộp Form 941 Quý 2: 31/7/2026 — Tiệm anh/chị sẵn sàng chưa?</span> <span id="countMsg">— còn <strong class="cd-num">44</strong> ngày</span>
   </div>
   <script>
     (function(){
-      var txt=document.getElementById('deadlineText'), num=document.getElementById('cdNum'), unit=document.getElementById('cdUnit');
-      if(!txt||!num||!unit) return;
+      var txt=document.getElementById('deadlineText'), cm=document.getElementById('countMsg');
+      if(!txt||!cm) return;
       function dayDiff(a,b){var MS=864e5;var x=new Date(a.getFullYear(),a.getMonth(),a.getDate());var y=new Date(b.getFullYear(),b.getMonth(),b.getDate());return Math.round((y-x)/MS);}
       function nextDeadline(){
         var now=new Date(), y=now.getFullYear(), L=[];
         for(var yr=y-1; yr<=y+2; yr++){
-          L.push({d:new Date(yr,0,31), q:'Q4'});   /* Jan 31 = Form 941 Q4 */
-          L.push({d:new Date(yr,3,30), q:'Q1'});   /* Apr 30 = Q1 */
-          L.push({d:new Date(yr,6,31), q:'Q2'});   /* Jul 31 = Q2 */
-          L.push({d:new Date(yr,9,31), q:'Q3'});   /* Oct 31 = Q3 */
+          L.push({d:new Date(yr,0,31), q:'Quý 4'});   /* 31/1 = Form 941 Quý 4 */
+          L.push({d:new Date(yr,3,30), q:'Quý 1'});   /* 30/4 = Quý 1 */
+          L.push({d:new Date(yr,6,31), q:'Quý 2'});   /* 31/7 = Quý 2 */
+          L.push({d:new Date(yr,9,31), q:'Quý 3'});   /* 31/10 = Quý 3 */
         }
         for(var i=0;i<L.length;i++){ if(dayDiff(now,L[i].d) >= 0) return L[i]; }
         return null;
       }
-      function fmt(d){ return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
+      function fmt(d){ return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear(); }
       function render(){
         var nx=nextDeadline(); if(!nx) return;
         var days=dayDiff(new Date(), nx.d);
-        txt.textContent='Form 941 '+nx.q+' deadline: '+fmt(nx.d)+' — Is your payroll ready?';
-        if(days<=0){ num.textContent=''; unit.textContent='Deadline today'; }
-        else { num.textContent=days; unit.textContent=(days===1?'day remaining':'days remaining'); }
+        txt.textContent='Hạn nộp Form 941 '+nx.q+': '+fmt(nx.d)+' — Tiệm anh/chị sẵn sàng chưa?';
+        cm.innerHTML = days<=0 ? '— Hạn nộp hôm nay' : '— còn <strong class="cd-num">'+days+'</strong> ngày';
       }
       render();
       setInterval(render, 3600000); /* refresh hourly */
