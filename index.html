@@ -267,6 +267,8 @@
     .deal .new{color:var(--navy-dark);font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1}
     .deal .save{background:var(--green);color:#fff;font-weight:800;font-size:12px;letter-spacing:.04em;padding:6px 12px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
     .deal-note{font-size:13.5px;color:var(--slate);font-weight:600;margin:8px 0 0}
+    .cd-num{color:var(--gold);font-weight:800}
+    .urgency-pill{display:inline-block;background:var(--danger);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.01em;padding:7px 14px;border-radius:20px;margin-top:10px;line-height:1.4}
     .ribbon{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-top:10px}
     .ribbon .old{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:15px}
     .ribbon .new{color:var(--gold-dark);font-weight:900;font-size:20px}
@@ -274,7 +276,37 @@
 </style>
 </head>
 <body>
-  <div class="topbar">Giá ra mắt: trọn bộ Payroll Starter Kit chỉ <strong>$9.99</strong> <span style="opacity:.6;text-decoration:line-through">$39.99</span> — ưu đãi sẽ sớm kết thúc.</div>
+  <div class="topbar" id="topbar">
+    <span id="deadlineText">⚠️ Form 941 Q2 deadline: July 31, 2026 — Is your payroll ready?</span> — <strong class="cd-num" id="cdNum">—</strong> <span id="cdUnit">days remaining</span>
+  </div>
+  <script>
+    (function(){
+      var txt=document.getElementById('deadlineText'), num=document.getElementById('cdNum'), unit=document.getElementById('cdUnit');
+      if(!txt||!num||!unit) return;
+      function dayDiff(a,b){var MS=864e5;var x=new Date(a.getFullYear(),a.getMonth(),a.getDate());var y=new Date(b.getFullYear(),b.getMonth(),b.getDate());return Math.round((y-x)/MS);}
+      function nextDeadline(){
+        var now=new Date(), y=now.getFullYear(), L=[];
+        for(var yr=y-1; yr<=y+2; yr++){
+          L.push({d:new Date(yr,0,31), q:'Q4'});   /* Jan 31 = Form 941 Q4 */
+          L.push({d:new Date(yr,3,30), q:'Q1'});   /* Apr 30 = Q1 */
+          L.push({d:new Date(yr,6,31), q:'Q2'});   /* Jul 31 = Q2 */
+          L.push({d:new Date(yr,9,31), q:'Q3'});   /* Oct 31 = Q3 */
+        }
+        for(var i=0;i<L.length;i++){ if(dayDiff(now,L[i].d) >= 0) return L[i]; }
+        return null;
+      }
+      function fmt(d){ return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
+      function render(){
+        var nx=nextDeadline(); if(!nx) return;
+        var days=dayDiff(new Date(), nx.d);
+        txt.textContent='⚠️ Form 941 '+nx.q+' deadline: '+fmt(nx.d)+' — Is your payroll ready?';
+        if(days<=0){ num.textContent=''; unit.textContent='Deadline today'; }
+        else { num.textContent=days; unit.textContent=(days===1?'day remaining':'days remaining'); }
+      }
+      render();
+      setInterval(render, 3600000); /* refresh hourly */
+    })();
+  </script>
   <header>
     <div class="wrap nav">
       <div class="brand">BELLA NHI NGUYEN<span style="display:block;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--navy);margin-top:3px">bellanhinguyen.pfa@gmail.com · (980) 474-0212</span></div>
@@ -299,6 +331,7 @@
             <span class="new">$9.99</span>
             <span class="save">Ưu đãi ra mắt · Tiết kiệm 75%</span>
           </div>
+          <div class="urgency-pill">🔴 IRS Tip Rule effective Tax Year 2026 — act before December 31</div>
           <p class="deal-note">Giá ra mắt $9.99 — sẽ trở lại $39.99. Tải về liền sau khi thanh toán.</p>
           <div class="hero-actions">
             <a href="#form" class="btn">Lấy bộ kit ngay · $9.99</a>
@@ -500,10 +533,12 @@
                 <div><label>Số lượng thợ</label><input type="number" name="employees" placeholder="Ví dụ: 5"></div>
               </div>
               <div><label>Điều anh/chị lo nhất về payroll?</label><textarea name="concern" placeholder="Ví dụ: chưa biết bắt đầu, sợ bị phạt, chưa có deadline..."></textarea></div>
-              <button class="btn" type="submit">Gửi cho Bella</button>
+              <button class="btn" type="submit">Gửi thông tin →</button>
             </form>
             <div id="tellBellaThanks" hidden>
               <p class="pp-sub" style="margin-top:8px">Đã nhận — cảm ơn anh/chị! Bella sẽ liên hệ để sắp xếp Payroll Clarity Call.</p>
+              <p style="margin-top:16px;font-weight:700;color:var(--navy-dark);font-size:15px">Khám phá thêm tài liệu khác của Bella:</p>
+              <a class="btn" href="https://handbook4nails-la.vercel.app/" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-top:10px">Cẩm nang nhân viên cho tiệm nail →</a>
             </div>
           </div>
         </div>
