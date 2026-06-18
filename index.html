@@ -318,7 +318,7 @@
 </head>
 <body>
   <div class="topbar" id="topbar">
-    <span id="deadlineText">Hạn nộp Form 941 Quý 2: 31/7/2026 — Tiệm anh/chị sẵn sàng chưa?</span> <span id="countMsg">— còn <strong class="cd-num">44</strong> ngày</span>
+    <span id="deadlineText">Hạn nộp Form 941 Quý 2: 31/7/2026 — Tiệm anh/chị sẵn sàng chưa?</span> <span id="countMsg">— chỉ còn <strong class="cd-num">44</strong> ngày nữa</span>
   </div>
   <script>
     (function(){
@@ -341,7 +341,7 @@
         var nx=nextDeadline(); if(!nx) return;
         var days=dayDiff(new Date(), nx.d);
         txt.textContent='Hạn nộp Form 941 '+nx.q+': '+fmt(nx.d)+' — Tiệm anh/chị sẵn sàng chưa?';
-        cm.innerHTML = days<=0 ? '— Hạn nộp hôm nay' : '— còn <strong class="cd-num">'+days+'</strong> ngày';
+        cm.innerHTML = days<=0 ? '— Hạn nộp hôm nay' : '— chỉ còn <strong class="cd-num">'+days+'</strong> ngày nữa';
       }
       render();
       setInterval(render, 3600000); /* refresh hourly */
