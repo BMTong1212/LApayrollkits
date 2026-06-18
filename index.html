@@ -307,7 +307,7 @@
 </head>
 <body>
   <div class="topbar" id="topbar">
-    <span id="deadlineText">⚠️ Form 941 Q2 deadline: July 31, 2026 — Is your payroll ready?</span> — <strong class="cd-num" id="cdNum">—</strong> <span id="cdUnit">days remaining</span>
+    <span id="deadlineText">Form 941 Q2 deadline: July 31, 2026 — Is your payroll ready?</span> — <strong class="cd-num" id="cdNum">—</strong> <span id="cdUnit">days remaining</span>
   </div>
   <script>
     (function(){
@@ -329,7 +329,7 @@
       function render(){
         var nx=nextDeadline(); if(!nx) return;
         var days=dayDiff(new Date(), nx.d);
-        txt.textContent='⚠️ Form 941 '+nx.q+' deadline: '+fmt(nx.d)+' — Is your payroll ready?';
+        txt.textContent='Form 941 '+nx.q+' deadline: '+fmt(nx.d)+' — Is your payroll ready?';
         if(days<=0){ num.textContent=''; unit.textContent='Deadline today'; }
         else { num.textContent=days; unit.textContent=(days===1?'day remaining':'days remaining'); }
       }
@@ -353,7 +353,7 @@
     <section class="hero">
       <div class="wrap grid">
         <div>
-          <div class="eyebrow">🛡️ Dành riêng cho tiệm nail tại Louisiana · 2026</div>
+          <div class="eyebrow">Dành riêng cho tiệm nail tại Louisiana · 2026</div>
           <h1>Làm payroll cho đúng — giữ vững tiệm anh/chị gây dựng.<span class="h1-en">Get payroll right — protect the salon you built.</span></h1>
           <p class="lead">Mỗi lần tới chuyện payroll với thuế, anh/chị thấy ngộp — sợ làm sai, sợ một ngày rắc rối với IRS ảnh hưởng tới cái tiệm mình gây dựng bao năm. Cảm giác lo đó là thật, và anh/chị không phải người duy nhất thấy vậy. Bộ kit $9.99 này chỉ cho anh/chị thấy rõ từng bước — <strong>đơn giản, làm xong trong một buổi chiều.</strong></p>
           <div class="deal">
@@ -361,8 +361,8 @@
             <span class="new">$9.99</span>
             <span class="save">Ưu đãi ra mắt · Tiết kiệm 75%</span>
           </div>
-          <div class="urgency-pill">🔴 IRS Tip Rule effective Tax Year 2026 — act before December 31</div>
-          <p class="deal-note">Giá ra mắt $9.99 — sẽ trở lại $39.99. Tải về liền sau khi thanh toán.</p>
+          <div class="urgency-pill">Luật thuế tiền tip mới của IRS — áp dụng năm 2026, chuẩn bị trước ngày 31/12</div>
+          <p class="deal-note">Tải về liền sau khi thanh toán.</p>
           <div class="hero-actions">
             <a href="#form" class="btn">Lấy bộ kit ngay · $9.99</a>
             <a href="#inside" class="btn secondary">Xem bên trong có gì</a>
@@ -558,7 +558,7 @@
               <hr class="upsell-divider">
               <p class="upsell-eyebrow">Một bước tiếp theo nếu anh/chị muốn — không bắt buộc</p>
               <div class="upsell-card">
-                <h4 class="upsell-head">Đã có kit — giờ làm cẩm nang nhân viên cho tiệm?</h4>
+                <h4 class="upsell-head">Đã có bộ kit — giờ làm cẩm nang nhân viên cho tiệm?</h4>
                 <ul class="upsell-benefits">
                   <li><b class="check">✓</b> Cẩm nang nhân viên song ngữ Anh–Việt, riêng cho tiệm anh/chị</li>
                   <li><b class="check">✓</b> Đủ phần: lương, thuế, tip, quyền lợi, giấy phép, nội quy</li>
@@ -566,8 +566,8 @@
                 </ul>
                 <div class="upsell-price"><span class="up-new">$29</span> <span class="up-old">$99</span></div>
                 <a class="btn upsell-btn" href="https://handbook4nails-la.vercel.app/" target="_blank" rel="noopener">Tìm hiểu thêm →</a>
-                <p class="upsell-note">Không bắt buộc. Bộ kit anh/chị vừa tải đã đủ để bắt đầu.</p>
-                <button type="button" class="upsell-dismiss" id="upsellDismiss">Không, cảm ơn — tôi tự dùng kit là đủ rồi.</button>
+                <p class="upsell-note">Bộ kit anh/chị vừa tải đã đủ để bắt đầu rồi.</p>
+                <button type="button" class="upsell-dismiss" id="upsellDismiss">Không, cảm ơn — tôi tự làm được.</button>
               </div>
             </div>
             <script>(function(){var d=document.getElementById('upsellDismiss'),b=document.getElementById('upsellBlock');if(d&&b){d.addEventListener('click',function(){b.style.display='none';});}})();</script>
