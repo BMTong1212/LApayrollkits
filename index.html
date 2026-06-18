@@ -303,6 +303,18 @@
     .upsell-note{font-size:12px;color:var(--slate);text-align:center;margin:10px 0 0;line-height:1.5}
     .upsell-dismiss{display:block;width:100%;background:none;border:0;color:var(--slate);font-size:12.5px;text-decoration:underline;cursor:pointer;margin:12px 0 0;font-family:inherit;padding:4px;line-height:1.4}
     .upsell-dismiss:hover{color:var(--navy)}
+    /* ===== checkout order summary ===== */
+    .checkout-summary{background:var(--cream-2);border:1px solid rgba(47,74,90,.12);border-radius:14px;padding:15px 17px;margin-bottom:18px}
+    .cs-head{font-weight:800;color:var(--navy-dark);font-size:14px;margin-bottom:10px;letter-spacing:.01em}
+    .cs-items{list-style:none;margin:0;padding:0}
+    .cs-items li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--navy);margin-bottom:7px;line-height:1.4}
+    .cs-items li:last-child{margin-bottom:0}
+    .cs-items .check,.cs-extras .check{color:var(--green);font-weight:900;flex:0 0 auto}
+    .cs-extras{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--slate);padding-top:10px;margin-top:10px;border-top:1px dashed rgba(47,74,90,.14)}
+    .cs-extras span{display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+    .cs-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:11px;margin-top:11px;border-top:1px solid rgba(47,74,90,.14);font-weight:700;color:var(--navy-dark);font-size:14px}
+    .cs-total .cs-price s{color:var(--slate);font-weight:600;font-size:14px;margin-right:6px}
+    .cs-total .cs-price b{font-size:20px;color:var(--navy-dark)}
 </style>
 </head>
 <body>
@@ -536,8 +548,26 @@
         <div class="formbox">
           <!-- (a) MINIMAL 2-FIELD CHECKOUT -> Stripe -->
           <form id="leadForm" action="#" method="post" novalidate>
+            <div class="checkout-summary">
+              <div class="cs-head">Anh/chị sắp nhận — Payroll Starter Kit</div>
+              <ul class="cs-items">
+                <li><span class="check">✓</span> Payroll Health Check — 10 câu hỏi tự chấm</li>
+                <li><span class="check">✓</span> Deadline Calendar 2026–2027</li>
+                <li><span class="check">✓</span> Tip Reporting Rule 2026</li>
+                <li><span class="check">✓</span> W-2 Payroll Setup Roadmap — 8 bước</li>
+              </ul>
+              <div class="cs-extras">
+                <span><span class="check">✓</span> Tải về ngay sau khi thanh toán</span>
+                <span><span class="check">✓</span> Tặng kèm Clarity Call 20 phút miễn phí</span>
+              </div>
+              <div class="cs-total"><span>Tổng thanh toán</span><span class="cs-price"><s>$39.99</s> <b>$9.99</b></span></div>
+            </div>
+            
             <div><label>Họ và tên</label><input type="text" name="name" placeholder="Nguyễn..." required></div>
-            <div><label>Email</label><input type="email" name="email" placeholder="email@example.com" required></div>
+            <div class="two">
+              <div><label>Email</label><input type="email" name="email" placeholder="email@example.com" required></div>
+              <div><label>Số điện thoại</label><input type="tel" name="phone" placeholder="(504) ..." required></div>
+            </div>
             <button class="btn" type="submit">Thanh toán $9.99 &amp; nhận bộ tài liệu →</button>
             <p class="note">Thanh toán an toàn qua Stripe — tải bộ tài liệu ngay sau khi thanh toán. Bằng cách tiếp tục, anh/chị đồng ý nhận email từ Bella.</p>
           </form>
@@ -573,7 +603,6 @@
             <form id="tellBella" class="tb-form" action="#" method="post" novalidate>
               <h4 class="tb-head">Giúp Bella chuẩn bị cho Clarity Call của anh/chị <span>(2 phút)</span></h4>
               <input type="hidden" name="email" id="tb_email">
-              <div><label>Số điện thoại</label><input type="tel" name="phone" placeholder="(504) ..." required></div>
               <div class="two">
                 <div><label>Thành phố</label><input type="text" name="city" placeholder="New Orleans, LA"></div>
                 <div><label>Số lượng thợ</label><input type="number" name="employees" placeholder="Ví dụ: 5"></div>
@@ -658,7 +687,8 @@
           if (lead.reportValidity && !lead.reportValidity()) return;
           var name = (lead.elements['name'].value || '').trim();
           var email = (lead.elements['email'].value || '').trim();
-          post({ name:name, email:email, stage:'checkout' });
+          var phone = (lead.elements['phone'].value || '').trim();
+          post({ name:name, email:email, phone:phone, stage:'checkout' });
           try { localStorage.setItem('lakit_email', email); localStorage.setItem('lakit_name', name); } catch(e){}
           if (STRIPE_LINK.indexOf('http') === 0) { window.location.href = STRIPE_LINK; return; }
           showPurchased(); // fallback when no link set (testing)
@@ -672,7 +702,7 @@
           e.preventDefault();
           if (tb.reportValidity && !tb.reportValidity()) return;
           var obj = { stage:'post_purchase' };
-          ['email','phone','city','employees','concern'].forEach(function(k){
+          ['email','city','employees','concern'].forEach(function(k){
             var el = tb.elements[k]; if (el) obj[k] = el.value || '';
           });
           post(obj);
